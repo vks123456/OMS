@@ -16,7 +16,7 @@ PFB the step by step execution [From Add to Cart To Place Order]
 2. Call Inventory service to check the stock of Item from Cache.
 3. If item is in stock, then push cart request to Kafka and set order status INIT in redis.
 4. Receive placeOrder request via HTTP API.
-5. Check for BLOCK and FAILED status for request orderID for 3 minutes.(In background, this service is listening Kafka messages and calling 
+5. Check for BLOCK and FAILED status for requested orderID for 3 minutes.(In background, this service is listening Kafka messages and calling 
 Inventory service API to check and block the Inventory so if Item is in stock then I am blocking that Item and putting the order in BLOCK 
 state in Redis and if Item is not is stock then I am marking order FAILED.)
 6. If no order or failed order is found in Redis then I am failing the cart.
