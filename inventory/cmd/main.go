@@ -38,7 +38,7 @@ func main() {
 
 	go func() {
 		log.Info().Msgf("starting server at %s", config.HTTPPort)
-		errChan <- 	hTTPServer.Start()
+		errChan <- hTTPServer.Start()
 	}()
 
 	//Handle Graceful Termination

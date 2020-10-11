@@ -45,7 +45,10 @@ func (o *PlaceOrder) PlaceOrder(req *request.PlaceOrder) (*response.PlaceOrder, 
 			return nil, err
 		}
 	}
-	return nil, nil
+	return &response.PlaceOrder{
+		OrderId: req.OrderId,
+		Status:  "SUCCESS",
+	}, nil
 }
 
 /*
@@ -57,29 +60,29 @@ func (o *PlaceOrder) toPay(req *request.PlaceOrder) {
 	// Create a context that will be canceled in 3 mins.
 	ctx, cancel := context.WithTimeout(context.Background(), 3*time.Minute)
 	defer cancel()
-	go func() {
-		for {
-			select {
-			case <-ctx.Done():
+
+	for {
+		select {
+		case <-ctx.Done():
+			toPayScheduler.Stop()
+			return
+		case <-toPayScheduler.C:
+			if v, _ := o.RedisClient.Get(req.OrderId); v == "FAILED" {
 				toPayScheduler.Stop()
 				return
-			case <-toPayScheduler.C:
-				if v, _ := o.RedisClient.Get(req.OrderId); v == "FAILED" {
-					toPayScheduler.Stop()
+			}
+			if v, _ := o.RedisClient.Get(req.OrderId); v == "BLOCKED" {
+				toPayScheduler.Stop()
+				if err := initPayment(); err != nil {
+					o.RedisClient.Set(req.OrderId, "PAYMENT_FAILED", 30*time.Minute)
 					return
 				}
-				if v, _ := o.RedisClient.Get(req.OrderId); v == "BLOCKED" {
-					toPayScheduler.Stop()
-					if err := initPayment(); err != nil {
-						o.RedisClient.Set(req.OrderId, "PAYMENT_FAILED", 30*time.Minute)
-						return
-					}
-					o.RedisClient.Set(req.OrderId, "PAYMENT_SUCCESS", 30*time.Minute)
-					return
-				}
+				o.RedisClient.Set(req.OrderId, "PAYMENT_SUCCESS", 30*time.Minute)
+				return
 			}
 		}
-	}()
+	}
+
 }
 
 /*

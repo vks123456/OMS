@@ -17,7 +17,7 @@ import (
 type CartService struct {
 	InventoryClient *clients.InventoryClient
 	Producer        *kafka.KafkaProducer
-	RedisClient *cache.Redis
+	RedisClient     *cache.Redis
 }
 
 func (c *CartService) AddToCart(req *request.Cart) (*response.Cart, error) {

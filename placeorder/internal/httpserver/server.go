@@ -25,7 +25,7 @@ func NewServer(config *config.Config, redis *cache.Redis) *HttpServer {
 	s := Server{
 		Config: config,
 		Order: &service.PlaceOrder{
-			RedisClient:     redis,
+			RedisClient: redis,
 			InventoryClient: &clients.InventoryClient{
 				Config: config,
 			},

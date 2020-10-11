@@ -21,12 +21,12 @@ type Config struct {
 	InventoryUrl string
 
 	//Redis Configs
-	RedisAddress         string
-	RedisPassword        string
-	RedisDB              int
-	RedisDialTimeoutMs   time.Duration
-	RedisReadTimeoutMs   time.Duration
-	RedisWriteTimeoutMs  time.Duration
+	RedisAddress        string
+	RedisPassword       string
+	RedisDB             int
+	RedisDialTimeoutMs  time.Duration
+	RedisReadTimeoutMs  time.Duration
+	RedisWriteTimeoutMs time.Duration
 }
 
 /*
@@ -50,12 +50,12 @@ func InitConfigStore() *Config {
 		InventoryUrl: viper.GetString("INVENTORY_BASE_URL"),
 
 		//Redis Configs
-		RedisAddress:         viper.GetString("REDIS_ADDRESS"),
-		RedisPassword:        viper.GetString("REDIS_PASSWORD"),
-		RedisDB:              viper.GetInt("REDIS_DB"),
-		RedisDialTimeoutMs:   viper.GetDuration("REDIS_DIAL_TIMEOUT_MS)"),
-		RedisReadTimeoutMs:   viper.GetDuration("REDIS_READ_TIMEOUT_MS"),
-		RedisWriteTimeoutMs:  viper.GetDuration("REDIS_WRITE_TIMEOUT_MS"),
+		RedisAddress:        viper.GetString("REDIS_ADDRESS"),
+		RedisPassword:       viper.GetString("REDIS_PASSWORD"),
+		RedisDB:             viper.GetInt("REDIS_DB"),
+		RedisDialTimeoutMs:  viper.GetDuration("REDIS_DIAL_TIMEOUT_MS)"),
+		RedisReadTimeoutMs:  viper.GetDuration("REDIS_READ_TIMEOUT_MS"),
+		RedisWriteTimeoutMs: viper.GetDuration("REDIS_WRITE_TIMEOUT_MS"),
 	}
 }
 
@@ -68,7 +68,7 @@ func setConfigDefaults() {
 	viper.SetDefault("KAFKA_VERBOSE", true)
 	viper.SetDefault("KAFKA_CLIENT_ID", "my-kafka-client")
 	viper.SetDefault("KAFKA_TOPIC", "order")
-	viper.SetDefault("INVENTORY_BASE_URL","http://0.0.0.0:8081/getQuantity")
+	viper.SetDefault("INVENTORY_BASE_URL", "http://0.0.0.0:8081/getQuantity")
 
 	viper.SetDefault("REDIS_ADDRESS", "localhost:6379")
 	viper.SetDefault("REDIS_DB", 0)

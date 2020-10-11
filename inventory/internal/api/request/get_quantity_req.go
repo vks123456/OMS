@@ -3,5 +3,5 @@ package request
 type GetQuantity struct {
 	ProductId     string `json:"product_id"`
 	FromCache     bool   `json:"from_cache"`
-	BlockQuantity int   `json:"block_quantity"`
+	BlockQuantity int    `json:"block_quantity"`
 }

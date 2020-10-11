@@ -108,4 +108,3 @@ func (i *InventoryClient) CheckAndUpdateNegativeInventory(req *request.AddQuanti
 
 	return nil
 }
-
